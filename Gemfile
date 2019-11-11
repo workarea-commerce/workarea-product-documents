@@ -1,12 +1,10 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
+git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 gemspec
 
-# To use a debugger
-# gem 'byebug', group: [:development, :test]
-
-gem "workarea"
+gem 'workarea', github: 'workarea-commerce/workarea'
 
 group :test do
-  gem "simplecov", require: false
+  gem 'simplecov', require: false
 end
