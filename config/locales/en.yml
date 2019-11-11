@@ -1,0 +1,34 @@
+en:
+  workarea:
+    storefront:
+        product_documents:
+          show:
+            documents: Documents
+    admin:
+      product_documents:
+        new:
+          create_document: Create Document
+          document: Document
+          heading: Documents for %{product}
+          name: Display Name
+          new_document: New Document
+          page_title: Documents for %{product}
+          type: Type
+        index:
+          add_new: Add New Document
+          delete: Delete
+          display_name: Display Name
+          drag_to_rearrange: Drag to rearrange
+          file_name: File Name
+          heading: Documents
+          page_title: Documents for %{product}
+        cards:
+          title: Documents
+          add_documents: Add Documents
+          description: Add downloadable documents to show on the product detail page.
+          manage_documents: Manage Documents
+        flash_messages:
+          delete: Your document has been removed.
+          create: Your document has been created.
+          update: Your document has been updated.
+          sorting_saved: The sort has been updated.

@@ -1,0 +1,40 @@
+- @page_title= t('workarea.admin.product_documents.index.page_title', product: @product.name)
+
+.view
+  .view__header
+    .grid
+      .grid__cell.grid__cell--25
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@product)
+          %h1= link_to @product.name, url_for(@product)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@product)
+
+  .view__container
+    = render_cards_for(@product, :documents)
+
+    .section
+      %h2.view__heading= t('workarea.admin.product_documents.index.heading')
+
+      %table
+        %thead
+          %tr
+            %th
+            %th= t('workarea.admin.product_documents.index.display_name')
+            %th= t('workarea.admin.product_documents.index.file_name')
+            %th
+        %tbody{ data: { sort_document: '', product_id: @product.to_param } }
+          - @product.product_documents.each do |document|
+            %tr{ data: { sort_document_id: document.id } }
+              %td= inline_svg('workarea/admin/icons/grip.svg', title: t('workarea.admin.product_documents.index.drag_to_rearrange'), class: 'svg-icon svg-icon--small svg-icon--gray')
+              %td= document.display_name
+              %td= link_to document.document_name, document.url, :target => '_blank'
+              %td
+                = form_tag catalog_product_document_path(@product, document), method: 'delete', class: 'text-button text-button--destroy' do
+                  = button_tag value: 'remove_product_document', class: 'text-button text-button--destroy' do
+                    = inline_svg('workarea/admin/icons/delete.svg', class: 'text-button__icon', title: t('workarea.admin.actions.delete'))
+    .workflow-bar
+      .grid.grid--auto.grid--right.grid--middle
+        .grid__cell
+          = link_to t('workarea.admin.product_documents.index.add_new'), new_catalog_product_document_path(@product), class: 'workflow-bar__button workflow-bar__button--create'

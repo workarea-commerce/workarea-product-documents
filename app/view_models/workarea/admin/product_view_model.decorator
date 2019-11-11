@@ -1,0 +1,7 @@
+module Workarea
+  decorate Admin::ProductViewModel, with: :product_documents do
+    def documents_by_type
+      product_documents.asc(:position).group_by { |doc| doc.display_name }
+    end
+  end
+end

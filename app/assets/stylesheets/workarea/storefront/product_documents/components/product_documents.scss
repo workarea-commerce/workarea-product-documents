@@ -1,0 +1,22 @@
+/*------------------------------------*\
+    #PRODUCT-DOCUMENTS
+\*------------------------------------*/
+
+.product-documents {}
+
+    .product-documents__title {}
+
+    .product-documents__type {
+        margin-bottom: 0;
+    }
+
+    .product-documents__display_name {}
+
+    .product-documents__list {
+        @extend %unstyled-list;
+        margin-bottom: $margin-bottom;
+    }
+
+        .product-documents__list-item {}
+
+            .product-documents__link {}

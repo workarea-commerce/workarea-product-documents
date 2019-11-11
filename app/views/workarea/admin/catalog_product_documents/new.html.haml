@@ -1,0 +1,44 @@
+- @page_title= t('workarea.admin.product_documents.new.page_title', product: @product.name)
+
+.product-images.view
+  .view__header
+    .grid
+      .grid__cell.grid__cell--25
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@product)
+          %h1= link_to @product.name, url_for(@product)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@product)
+
+  .view__container
+    = render_cards_for(@product, :documents)
+
+  .view__container.view__container--narrow
+
+    .section
+      %h2= t('workarea.admin.product_documents.new.new_document')
+
+      - if @image.present? && @image.errors.present?
+        - @image.errors.full_messages.each do |message|
+          = render_message 'error', message
+
+      = form_tag catalog_product_documents_path(@product), method: 'post', multipart: true do
+        .property
+          = label_tag 'document_document', class: 'property__name' do
+            %span.property__text= t('workarea.admin.product_documents.new.document')
+          .value= file_field_tag 'document[document]', required: true
+        .property
+          = label_tag 'document_display_name', class: 'property__name' do
+            %span.property__text= t('workarea.admin.product_documents.new.name')
+          .value= text_field_tag 'document[display_name]', nil, class: 'text-box'
+
+        = append_partials('admin.product_document_fields', product: @product)
+        .workflow-bar
+          .grid.grid--right.grid--middle
+            .grid__cell.grid__cell--20
+              = link_to t('workarea.admin.form.cancel'), url_for(@product), class: 'workflow-bar__button workflow-bar__button--delete'
+
+            .grid__cell.grid__cell--80
+              .grid.grid--auto.grid--right.grid--middle
+                .grid__cell= button_tag t('workarea.admin.product_documents.new.create_document'), value: t('workarea.admin.product_documents.new.create_document'), class: 'workflow-bar__button workflow-bar__button--create'

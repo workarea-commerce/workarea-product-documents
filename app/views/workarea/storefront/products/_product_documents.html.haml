@@ -1,0 +1,9 @@
+%div.product-documents
+  %h3.product-documents__title= t('workarea.storefront.product_documents.show.documents')
+  - product.documents_by_name.each do |display_name, documents|
+    %p.product-documents__display_name= display_name
+
+    %ul.product-documents__list
+      - documents.each do |document|
+        %li.product-documents__list-item
+          = link_to document.document_name, document.url, :target => '_blank', class: "product-documents__link"

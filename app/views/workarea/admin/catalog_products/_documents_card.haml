@@ -1,0 +1,22 @@
+.grid__cell
+  .card{ class: card_classes(:documents, local_assigns[:active]) }
+    = link_to catalog_product_documents_path(model), class: 'card__header' do
+      %span.card__header-text= t('workarea.admin.product_documents.cards.title')
+      = inline_svg 'workarea/admin/icons/pages.svg', class: 'card__icon'
+
+    - if local_assigns[:active].blank?
+      .card__body
+        - if model.product_documents.empty?
+          %p= t('workarea.admin.product_documents.cards.description')
+          = link_to new_catalog_product_document_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.product_documents.cards.add_documents')
+        - else
+          %ul.list-reset
+            - model.product_documents.take(10).each do |document|
+              %li
+                %strong= document.display_name
+                =document.document_name
+            - if model.product_documents.size > 10
+              %li= t('workarea.admin.cards.more', amount: model.product_documents.size - 10)
+          = link_to catalog_product_documents_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.product_documents.cards.manage_documents')

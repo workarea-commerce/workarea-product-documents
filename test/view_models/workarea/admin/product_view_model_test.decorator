@@ -1,0 +1,28 @@
+require 'test_helper'
+
+module Workarea
+  module Admin
+    decorate ProductViewModelTest, with: :product_documents do
+      def test_documents_by_type
+        @product.product_documents.build(
+          display_name: "Instructions",
+          document: product_image_file_path
+        )
+        @product.product_documents.build(
+          display_name: "Instructions",
+          document: product_image_file_path
+        )
+        @product.product_documents.build(
+          display_name: "Warranty",
+          document: product_image_file_path
+        )
+
+        documents = @view_model.documents_by_type
+        assert_equal(2, documents.keys.size)
+        assert_equal(2, documents["Instructions"].size)
+        assert_equal(1, documents["Warranty"].size)
+      end
+
+    end
+  end
+end

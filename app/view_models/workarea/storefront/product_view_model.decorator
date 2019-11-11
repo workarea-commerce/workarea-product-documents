@@ -1,0 +1,7 @@
+module Workarea
+  decorate Storefront::ProductViewModel, with: :product_documents do
+    def documents_by_name
+      product_documents.group_by { |doc| doc.display_name }
+    end
+  end
+end

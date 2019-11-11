@@ -1,0 +1,14 @@
+.edit-view-documents
+  .edit-product__editable
+    %h2.heading.heading--5= pluralize(@product.documents.length, 'Document')
+    %p.edit-product__editable-action= link_to 'Edit', catalog_product_documents_path(@product), class: 'button button--small', data: { dialog_button: '' }
+
+    - if @product.documents_by_type.any?
+      %ul.edit-product__data-list
+        - @product.documents_by_type.each do |type, documents|
+          %li
+            %span
+              - if type.blank?
+                #{documents.count} without Type
+              - else
+                #{documents.count} for #{type.titleize}

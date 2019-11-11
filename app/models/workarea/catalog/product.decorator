@@ -1,0 +1,7 @@
+module Workarea
+  decorate Catalog::Product, with: :product_documents do
+    decorated do
+      embeds_many :product_documents, class_name: 'Workarea::Catalog::ProductDocument'
+    end
+  end
+end
