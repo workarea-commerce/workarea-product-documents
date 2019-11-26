@@ -99,6 +99,7 @@ $(cat CHANGELOG.md)" > CHANGELOG.md'
   system "git push --tags"
 
   system "gem build workarea-product_documents.gemspec"
+  system "gem push workarea-product_documents-#{Workarea::ProductDocuments::VERSION}.gem"
   system "gem push workarea-product_documents-#{Workarea::ProductDocuments::VERSION}.gem --host #{host}"
   system "rm workarea-product_documents-#{Workarea::ProductDocuments::VERSION}.gem"
 end
