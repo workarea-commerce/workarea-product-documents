@@ -1,4 +1,4 @@
-WebLinc Product Documents
+Workarea Product Documents
 ================================================================================
 
 Product Documents plugin for the Workarea platform.
@@ -28,7 +28,7 @@ Update your application's bundle.
     cd path/to/application
     bundle
 
-WebLinc Platform Documentation
+Workarea Platform Documentation
 --------------------------------------------------------------------------------
 
 See [https://developer.workarea.com/](https://developer.workarea.com/) for Workarea platform documentation.
