@@ -96,7 +96,7 @@ $(cat CHANGELOG.md)" > CHANGELOG.md'
   system 'git add CHANGELOG.md && git commit -m "Update changelog" && git push origin HEAD'
 
   system "git tag -a v#{Workarea::ProductDocuments::VERSION} -m 'Tagging #{Workarea::ProductDocuments::VERSION}'"
-  system "git push --tags"
+  system "git push origin HEAD --follow-tags"
 
   system "gem build workarea-product_documents.gemspec"
   system "gem push workarea-product_documents-#{Workarea::ProductDocuments::VERSION}.gem"
