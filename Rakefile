@@ -16,8 +16,9 @@ end
 APP_RAKEFILE = File.expand_path("test/dummy/Rakefile", __dir__)
 load "rails/tasks/engine.rake"
 load "rails/tasks/statistics.rake"
-
+load 'workarea/changelog.rake'
 require "rake/testtask"
+
 Rake::TestTask.new(:test) do |t|
   t.libs << "lib"
   t.libs << "test"
@@ -29,71 +30,13 @@ task default: :test
 $LOAD_PATH.unshift File.expand_path("lib", __dir__)
 require "workarea/product_documents/version"
 
-desc "Generate the changelog based on git history"
-task :changelog, :from, :to do |_t, args|
-  require "date"
-
-  from = if args[:from].present?
-    args[:from]
-         elsif `git tag`.empty?
-           `git rev-list --max-parents=0 HEAD`
-         else
-           `git describe --tags --abbrev=0`.strip
-  end
-
-  to = args[:to] || "HEAD"
-  log = `git log #{from}..#{to} --pretty=format:'%an|%B___'`
-
-  puts "Workarea ProductDocuments #{Workarea::ProductDocuments::VERSION} (#{Date.today})"
-  puts "-" * 80
-  puts
-
-  log.split(/___/).each do |commit|
-    pieces = commit.split("|").reverse
-    author = pieces.pop.strip
-    message = pieces.join.strip
-
-    next if message =~ /^\s*Merge pull request/
-    next if message =~ /No changelog/i
-
-    project_key = "DOCUMENTS" # TODO: Replace with your Project's Jira key
-
-    if project_key.blank?
-      puts "To clean up your release notes, add your project's Jira key to the Changelog Rake task!"
-    else
-      ticket = message.scan(/#{project_key}-\d+/)[0]
-      next if ticket.nil?
-      next if message =~ /^\s*Merge branch/ && ticket.nil?
-    end
-
-    first_line = false
-
-    message.each_line do |line|
-      if !first_line
-        first_line = true
-        puts "*   #{line}"
-      elsif line.strip.empty?
-        puts
-      else
-        puts "    #{line}"
-      end
-    end
-
-    puts "    #{author}"
-    puts
-  end
-end
-
 desc "Release version #{Workarea::ProductDocuments::VERSION} of the gem"
 task :release do
   host = "https://#{ENV['BUNDLE_GEMS__WEBLINC__COM']}@gems.weblinc.com"
 
-  system "touch CHANGELOG.md"
-  system 'echo "$(rake changelog)
-
-
-$(cat CHANGELOG.md)" > CHANGELOG.md'
-  system 'git add CHANGELOG.md && git commit -m "Update changelog" && git push origin HEAD'
+  Rake::Task['workarea:changelog'].execute
+  system 'git add CHANGELOG.md'
+  system 'git commit -m "Update CHANGELOG"'
 
   system "git tag -a v#{Workarea::ProductDocuments::VERSION} -m 'Tagging #{Workarea::ProductDocuments::VERSION}'"
   system "git push origin HEAD --follow-tags"
